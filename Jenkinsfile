@@ -61,8 +61,8 @@ pipeline {
              """   
              }
          }    
+      }
     }
-
     post {
         success {
             echo "CI pipeline completed &  K8s manifests updated successfully"

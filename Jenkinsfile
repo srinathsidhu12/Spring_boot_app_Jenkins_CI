@@ -48,8 +48,8 @@ pipeline {
                    url: 'https://github.com/user/k8s-manifests.git'
 
              sh """
-                sed -i 's|image:.*|image: $IMAGE:$TAG|' deployment.yaml
-                git commit -am "Update image to $TAG"
+                sed -i 's|image:.*|image: ${DOCKER_HUB_REPO}:${IMAGE_TAG}|' deployment.yaml
+                git commit -am "Update image to ${DOCKER_HUB_REPO}:${IMAGE_TAG}"
                 git push origin master
              """   
              }

@@ -44,12 +44,19 @@ pipeline {
 
         stage('Update k8s manifests') {
             steps {
-               git credentialsId: 'github-creds',
-                   url: 'https://github.com/srinathsidhu12/Spring_boot_app_argocd_CD.git'
+               withCredentials([usernamePassword(
+               credentialsId: 'github-creds',
+               usernameVariable: 'GIT_USER',
+               passwordVariable: 'GIT_PASS'
+             )]) {
 
              sh """
+                git remote set-url origin https://$GIT_USER:$GIT_PASS@github.com/srinathsidhu12/Spring_boot_app_argocd_CD.git
+
                 sed -i 's|image:.*|image: ${DOCKER_HUB_REPO}:${IMAGE_TAG}|' deployment.yaml
+
                 git commit -am "Update image to ${DOCKER_HUB_REPO}:${IMAGE_TAG}"
+
                 git push origin master
              """   
              }

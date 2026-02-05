@@ -45,7 +45,7 @@ pipeline {
         stage('Update k8s manifests') {
             steps {
                git credentialsId: 'github-creds',
-                   url: 'https://github.com/user/k8s-manifests.git'
+                   url: 'https://github.com/srinathsidhu12/Spring_boot_app_argocd_CD.git'
 
              sh """
                 sed -i 's|image:.*|image: ${DOCKER_HUB_REPO}:${IMAGE_TAG}|' deployment.yaml

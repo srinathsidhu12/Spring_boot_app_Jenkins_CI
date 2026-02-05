@@ -41,18 +41,24 @@ pipeline {
                 }
             }
         }
-
+        
+        stage('Checkout GitOps Repo to update manifests') {
+         steps {  //dir() tells Jenkins to run the steps inside a specific folder in the workspace.Switch to manifest folder to clone manifest repos & to update files 
+            dir('manifests') { 
+               git url: 'https://github.com/srinathsidhu12/Spring_boot_app_argocd_CD.git'
+            }
+         }
+        }  
         stage('Update k8s manifests') {
-            steps {
-               withCredentials([usernamePassword(
-               credentialsId: 'github-creds',
-               usernameVariable: 'GIT_USER',
-               passwordVariable: 'GIT_PASS'
+            steps { 
+               dir('manifests') { 
+                 withCredentials([usernamePassword(
+                   credentialsId: 'github-creds',
+                   usernameVariable: 'GIT_USER',
+                   passwordVariable: 'GIT_PASS'
              )]) {
 
-             sh """
-                git remote set-url origin https://$GIT_USER:$GIT_PASS@github.com/srinathsidhu12/Spring_boot_app_argocd_CD.git
-
+             sh """          
                 sed -i 's|image:.*|image: ${DOCKER_HUB_REPO}:${IMAGE_TAG}|' deployment.yaml
 
                 git commit -am "Update image to ${DOCKER_HUB_REPO}:${IMAGE_TAG}"
@@ -60,7 +66,8 @@ pipeline {
                 git push origin master
              """   
              }
-         }    
+          } 
+        }    
       }
     }
     post {

@@ -63,7 +63,7 @@ pipeline {
 
                 git commit -am "Update image to ${DOCKER_HUB_REPO}:${IMAGE_TAG}"
 
-                git push origin master
+                git push https://${GIT_USER}:${GIT_PASS}@github.com/srinathsidhu12/Spring_boot_app_argocd_CD.git
              """   
              }
           } 

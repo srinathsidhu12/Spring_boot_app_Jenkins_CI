@@ -16,7 +16,7 @@ public class DemoApplication {
 class HelloController {
     @GetMapping("/")
     public String hello() {
-        return "Hello from Spring Boot! jenkins for CI & argocd for CD_v1.0";
+        return "Hello from Spring Boot! jenkins for CI & argocd for CD_v2.0";
     }
 }
 
